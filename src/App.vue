@@ -1,19 +1,33 @@
 <template>
   <div>
     <h1>Vue Todo With Typescript</h1>
-    <div>
-      <label for=""></label>
-      <input type="text" name="" id="" />
-    </div>
+    <TodoInput :item="todoText" @input="updateTodoText" @add="addTodoItem" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
+import TodoInput from "./components/TodoInput.vue";
 
 export default defineComponent({
+  components: { TodoInput },
   setup() {
-    return {};
+    const todoText = ref("");
+
+    const updateTodoText = (value: any) => {
+      todoText.value = value;
+    };
+
+    const addTodoItem = () => {
+      localStorage.setItem(todoText.value, todoText.value);
+      initTodoText();
+    };
+
+    const initTodoText = () => {
+      todoText.value = "";
+    };
+
+    return { todoText, updateTodoText, addTodoItem };
   },
 });
 </script>
